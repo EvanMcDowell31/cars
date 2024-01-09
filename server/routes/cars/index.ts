@@ -1,15 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-import type { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../prisma/prismaClient";
 
-const prisma = new PrismaClient();
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "GET") {
-    const cars = await prisma.car.findMany();
-    res.status(200).json(cars);
-  }
-  // handle other methods or return 405 for methods not allowed
+// separating api from db layer
+export default async function getCars() {
+  const res = await prisma.car.findMany();
+  return res;
 }
